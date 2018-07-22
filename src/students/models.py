@@ -13,23 +13,20 @@ DEPARTMENT_TYPE_CHOICES = [
     ('BBC', 'Business Computing'),
     ]
 
+class Lecturers(models.Model):
+    first_name = models.CharField(max_length=255, null=False, blank=False)
+    last_name = models.CharField(max_length=255, blank=False, null=False)
+    other_names = models.CharField(max_length=255, null=True, blank=True)
+
+    def get_full_name(self):
+        return '{} {}'.format(self.first_name, self.last_name)
+
+    def get_short_name(self):
+        return self.first_name
+
+
 class Department(models.Model):
-    # INFORMATION_TECHNOLOGY = 'BIT'
-    # COLLEGE_OF_HEALTH_SCIENCES = 'COHES'
-    # COMPUTER_SCIENCE = 'SCIT'
-
-# DEPARTMENT_TYPE_CHOICES = (
-#     (INFORMATION_TECHNOLOGY, 'Information technology'),
-#     (COLLEGE_OF_HEALTH_SCIENCES, 'Collage of health sciences'),
-#     (COMPUTER_SCIENCE, 'Computer science'),
-# )
-
-    # DEPARTMENT_TYPE_CHOICES = [
-    #     ('BIT', 'Information technology'),
-    #     ('COHES', 'Collage of health sciences'),
-    #     ('SCIT', 'Computer science'),
-    # ]
-
+    
     Department_Code = models.CharField(primary_key=True, max_length=10)
   # Department_Name = models.CharField(max_length=200, null=False)
     Department_Type = models.CharField(max_length=200, choices=DEPARTMENT_TYPE_CHOICES, default='SCIT')
@@ -58,6 +55,7 @@ class Course(models.Model):
     unit_name = models.CharField(max_length=200, null=False)
     year = models.IntegerField(choices=COURSE_YEAR_CHOICES, default=0)
     department = models.ForeignKey(Department, related_name="courses",on_delete=models.PROTECT)
+    lecturer = models.ForeignKey(Lecturers, related_name="units_taught",on_delete=models.PROTECT)
 
     def __unicode__(self):
         return u"{} ({} cfu)".format(self.unit_name, self.unit_code)
@@ -68,9 +66,10 @@ class Student(models.Model):
     last_name = models.CharField(max_length=255, blank=False, null=False)
     other_names = models.CharField(max_length=255, null=True, blank=True)
     registration_number = models.CharField(unique=True, max_length=20, null=True, blank=False)
-  # department = models.ForeignKey(Department, related_name="courses",on_delete=models.PROTECT)
-  # id_no_Passport = models.CharField(max_length=255, null=False, blank=False)
-  # country = models.CharField(max_length=255, null=True, blank=True)
+    department = models.ForeignKey(Department, related_name="student_department",on_delete=models.PROTECT)
+    courses = models.ForeignKey(Course, related_name="student_course", on_delete=models.PROTECT)
+    id_no_Passport = models.CharField(max_length=255, null=False, blank=False)
+    country = models.CharField(max_length=255, null=True, blank=True)
     date_of_birth = models.DateField(blank=False, null=False)
     image = models.ImageField(null=False ,blank=False, upload_to="profile_images")
     GENDER_CHOICES = (
