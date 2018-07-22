@@ -64,10 +64,10 @@ class Course(models.Model):
 
 class Student(models.Model):
     # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    first_Name = models.CharField(max_length=255, null=False, blank=False)
-    last_Name = models.CharField(max_length=255, blank=False, null=False)
-    other_Names = models.CharField(max_length=255, null=True, blank=True)
-    registration_Number = models.CharField(unique=True, max_length=20, null=True, blank=False)
+    first_name = models.CharField(max_length=255, null=False, blank=False)
+    last_name = models.CharField(max_length=255, blank=False, null=False)
+    other_names = models.CharField(max_length=255, null=True, blank=True)
+    registration_number = models.CharField(unique=True, max_length=20, null=True, blank=False)
   # department = models.ForeignKey(Department, related_name="courses",on_delete=models.PROTECT)
   # id_no_Passport = models.CharField(max_length=255, null=False, blank=False)
   # country = models.CharField(max_length=255, null=True, blank=True)
