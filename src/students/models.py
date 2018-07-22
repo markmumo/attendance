@@ -3,13 +3,14 @@ from django.db import models
 
 # Create your models here. 
 
-
+BUSINESS_COMPUTING = 'BBC'
 COLLEGE_OF_HEALTH_SCIENCES = 'COHES'
 SCHOOL_OF_COMPUTING_AND_INFORMATION_TECHNOLOGY = 'SCIT'
 
 DEPARTMENT_TYPE_CHOICES = [
-    ('COHES', 'Collage of Health Sciences'),
     ('SCIT', 'School of Computing and Information Technology'),
+    ('COHES', 'Collage of Health Sciences'),
+    ('BBC', 'Business Computing'),
     ]
 
 class Department(models.Model):
@@ -53,48 +54,48 @@ class Course(models.Model):
         (4.1, 'Fourth Year First Semester'),
         (4.2, 'Fourth Year Second Semester'),
     )
-    Unit_Code = models.CharField(primary_key=True, max_length=10)
-    Unit_Name = models.CharField(max_length=200, null=False)
-    Year = models.IntegerField(choices=COURSE_YEAR_CHOICES, default=0)
-    Department = models.ForeignKey(Department, related_name="courses",on_delete=models.PROTECT)
+    unit_code = models.CharField(primary_key=True, max_length=10)
+    unit_name = models.CharField(max_length=200, null=False)
+    year = models.IntegerField(choices=COURSE_YEAR_CHOICES, default=0)
+    department = models.ForeignKey(Department, related_name="courses",on_delete=models.PROTECT)
 
     def __unicode__(self):
-        return u"{} ({} cfu)".format(self.Unit_Name, self.Unit_Code)
+        return u"{} ({} cfu)".format(self.unit_name, self.unit_code)
 
 class Student(models.Model):
     # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    First_Name = models.CharField(max_length=255, null=False, blank=False)
-    Last_Name = models.CharField(max_length=255, blank=False, null=False)
-    Other_Names = models.CharField(max_length=255, null=True, blank=True)
-    Registration_Number = models.CharField(unique=True, max_length=20, null=True, blank=False)
+    first_Name = models.CharField(max_length=255, null=False, blank=False)
+    last_Name = models.CharField(max_length=255, blank=False, null=False)
+    other_Names = models.CharField(max_length=255, null=True, blank=True)
+    registration_Number = models.CharField(unique=True, max_length=20, null=True, blank=False)
   # department = models.ForeignKey(Department, related_name="courses",on_delete=models.PROTECT)
   # id_no_Passport = models.CharField(max_length=255, null=False, blank=False)
   # country = models.CharField(max_length=255, null=True, blank=True)
-    Date_of_Birth = models.DateField(blank=False, null=False)
-    Image = models.ImageField(null=False ,blank=False, upload_to="profile_images")
+    date_of_birth = models.DateField(blank=False, null=False)
+    image = models.ImageField(null=False ,blank=False, upload_to="profile_images")
     GENDER_CHOICES = (
         ('M', 'Male'),
         ('F', 'Female'),
     )
-    Gender = models.CharField(max_length=2, choices=GENDER_CHOICES)
+    gender = models.CharField(max_length=2, choices=GENDER_CHOICES)
     #guid = models.UUIDField(unique=True, default=uuid.uuid4)
-    Parent_Contacts = models.CharField(max_length=255, null=False, blank=False)
-    Student_Contacts = models.CharField(max_length=255, null=True, blank=True)
-    Address = models.CharField(max_length=255, null=False, blank=False)
-    Email = models.EmailField(
+    parent_Contacts = models.CharField(max_length=255, null=False, blank=False)
+    student_Contacts = models.CharField(max_length=255, null=True, blank=True)
+    address = models.CharField(max_length=255, null=False, blank=False)
+    email = models.EmailField(
         verbose_name='email address',
         max_length=255,
         unique=True,
     )
-    Certificates = models.FileField(blank=False, null=False, upload_to="documents")
+    certificates = models.FileField(blank=False, null=False, upload_to="documents")
     #REQUIRED_FIELDS = ['guid']
 
     def get_full_name(self):
-        return '{} {}'.format(self.First_Name, self.Last_Name)
+        return '{} {}'.format(self.first_name, self.last_name)
 
     def get_short_name(self):
-        return self.First_Name
+        return self.first_name
 
     def __str__(self):
-        return self.Registration_Number
+        return self.registration_number
 
