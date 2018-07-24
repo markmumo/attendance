@@ -13,33 +13,13 @@ DEPARTMENT_TYPE_CHOICES = [
     ('BBC', 'Business Computing'),
     ]
 
-
-class Lecturers(models.Model):
-    first_name = models.CharField(max_length=255, null=False, blank=False)
-    last_name = models.CharField(max_length=255, blank=False, null=False)
-    other_names = models.CharField(max_length=255, null=True, blank=True)
-
-    def get_full_name(self):
-        return '{} {}'.format(self.first_name, self.last_name)
-
-    def get_short_name(self):
-        return self.first_name
-
-
 class Department(models.Model):
     
-    Department_Code = models.CharField(primary_key=True, max_length=10)
-  # Department_Name = models.CharField(max_length=200, null=False)
+    Department_Code = models.CharField(primary_key=True, max_length=10) 
     Department_Type = models.CharField(max_length=200, choices=DEPARTMENT_TYPE_CHOICES, default='SCIT')
 
-# class Meta:
-#         verbose_name = ('department')
-#         verbose_name_plural = ('departments')
-#         ordering = ['dept_code']
-    # def __str__(self):
-    #     return self.dept_name
-    # def __unicode__(self):
-    #     return u"{} ({} cfu)".format(self.dept_name, self.dept_code)
+    def __str__(self):
+        return self.Department_Type
 
 class Course(models.Model):
 
@@ -54,7 +34,6 @@ class Course(models.Model):
         ('Fourth_Year_Second_Semester', 'Fourth Year Second Semester'),
         )
 
-
     unit_code = models.CharField(primary_key=True, max_length=10)
     unit_name = models.CharField(max_length=200, null=False)
     year = models.CharField(max_length=200, choices=COURSE_YEAR_CHOICES, default='First_Year_First_Semester')
@@ -64,15 +43,26 @@ class Course(models.Model):
     def __unicode__(self):
         return u"{} ({} cfu)".format(self.unit_name, self.unit_code)
 
+class Lecturers(models.Model):
+    first_name = models.CharField(max_length=255, null=False, blank=False)
+    last_name = models.CharField(max_length=255, blank=False, null=False)
+    other_names = models.CharField(max_length=255, null=True, blank=True)
+    department = models.ForeignKey(Department, related_name="lecturer_courses",on_delete=models.PROTECT)
+
+    def get_full_name(self):
+        return '{} {}'.format(self.first_name, self.last_name)
+
+    def get_short_name(self):
+        return self.first_name
+
 class Student(models.Model):
-   #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
    #guid = models.UUIDField(unique=True, default=uuid.uuid4)
     first_name = models.CharField(max_length=255, null=False, blank=False)
     last_name = models.CharField(max_length=255, blank=False, null=False)
     other_names = models.CharField(max_length=255, null=True, blank=True)
     registration_number = models.CharField(unique=True, max_length=20, null=True, blank=False)
     department = models.ForeignKey(Department, related_name="student_course",on_delete=models.PROTECT)
-    #year = models.ForeignKey(Course, related_name="student_year", on_delete=models.PROTECT)
+    # year = models.ForeignKey(Course, choices=COURSE_YEAR_CHOICES, on_delete=models.PROTECT)
     id_no_Passport = models.CharField(max_length=255, null=False, blank=False)
     country = models.CharField(max_length=255, null=True, blank=True)
     date_of_birth = models.DateField(blank=False, null=False)
@@ -83,7 +73,7 @@ class Student(models.Model):
     )
     gender = models.CharField(max_length=2, choices=GENDER_CHOICES)
     parent_Contacts = models.CharField(max_length=255, null=False, blank=False)
-    student_Contacts = models.CharField(max_length=255, null=True, blank=True)
+    student_Contacts = models.CharField(max_length=255, null=False, blank=False)
     address = models.CharField(max_length=255, null=False, blank=False)
     email = models.EmailField(
         verbose_name='email address',
@@ -91,7 +81,6 @@ class Student(models.Model):
         unique=True,
     )
     certificates = models.FileField(blank=False, null=False, upload_to="documents")
-    #REQUIRED_FIELDS = ['guid']
 
     def get_full_name(self):
         return '{} {}'.format(self.first_name, self.last_name)
