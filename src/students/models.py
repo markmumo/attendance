@@ -7,32 +7,11 @@ BUSINESS_COMPUTING = 'BBC'
 COLLEGE_OF_HEALTH_SCIENCES = 'COHES'
 SCHOOL_OF_COMPUTING_AND_INFORMATION_TECHNOLOGY = 'SCIT'
 
-First_Year_First_Semester = 1.1
-First_Year_Second_Semester = 1.2
-Second_Year_First_Semester = 2.1
-Second_Year_Second_Semester = 2.2
-Third_Year_First_Semester = 3.1
-Third_Year_Second_Semester = 3.2
-Fourth_Year_First_Semester = 4.1
-Fourth_Year_Second_Semester = 4.2
-
-
 DEPARTMENT_TYPE_CHOICES = [
     ('SCIT', 'School of Computing and Information Technology'),
     ('COHES', 'Collage of Health Sciences'),
     ('BBC', 'Business Computing'),
     ]
-
-COURSE_YEAR_CHOICES = (
-    (First_Year_First_Semester, 'First Year First Semester'),
-    (First_Year_Second_Semester, 'First Year Second Semester'),
-    (Second_Year_First_Semester, 'Second Year First Semester'),
-    (Second_Year_Second_Semester, 'Second Year Second Semester'),
-    (Third_Year_First_Semester, 'Third Year First Semester'),
-    (Third_Year_Second_Semester, 'Third Year Second Semester'),
-    (Fourth_Year_First_Semester, 'Fourth Year First Semester'),
-    (Fourth_Year_Second_Semester, 'Fourth Year Second Semester'),
-    )
 
 
 class Lecturers(models.Model):
@@ -63,40 +42,22 @@ class Department(models.Model):
     #     return u"{} ({} cfu)".format(self.dept_name, self.dept_code)
 
 class Course(models.Model):
-    # COURSE_YEAR_CHOICES = (
-    #     (1.1, 'First Year First Semester'),
-    #     (1.2, 'First Year Second Semester'),
-    #     (2.1, 'Second Year First Semester'),
-    #     (2.2, 'Second Year Second Semester'),
-    #     (3.1, 'Third Year First Semester'),
-    #     (3.2, 'Third Year Second Semester'),
-    #     (4.1, 'Fourth Year First Semester'),
-    #     (4.2, 'Fourth Year Second Semester'),
-    # )
-    # First_Year_First_Semester = 1.1
-    # First_Year_Second_Semester = 1.2
-    # Second_Year_First_Semester = 2.1
-    # Second_Year_Second_Semester = 2.2
-    # Third_Year_First_Semester = 3.1
-    # Third_Year_Second_Semester = 3.2
-    # Fourth_Year_First_Semester = 4.1
-    # Fourth_Year_Second_Semester = 4.2
 
-    # COURSE_YEAR_CHOICES = (
-    #     (First_Year_First_Semester, 'First Year First Semester'),
-    #     (First_Year_Second_Semester, 'First Year Second Semester'),
-    #     (Second_Year_First_Semester, 'Second Year First Semester'),
-    #     (Second_Year_Second_Semester, 'Second Year Second Semester'),
-    #     (Third_Year_First_Semester, 'Third Year First Semester'),
-    #     (Third_Year_Second_Semester, 'Third Year Second Semester'),
-    #     (Fourth_Year_First_Semester, 'Fourth Year First Semester'),
-    #     (Fourth_Year_Second_Semester, 'Fourth Year Second Semester'),
-    #     )
+    COURSE_YEAR_CHOICES = (
+        ('First_Year_First_Semester', 'First Year First Semester'),
+        ('First_Year_Second_Semester', 'First Year Second Semester'),
+        ('Second_Year_First_Semester', 'Second Year First Semester'),
+        ('Second_Year_Second_Semester', 'Second Year Second Semester'),
+        ('Third_Year_First_Semester', 'Third Year First Semester'),
+        ('Third_Year_Second_Semester', 'Third Year Second Semester'),
+        ('Fourth_Year_First_Semester', 'Fourth Year First Semester'),
+        ('Fourth_Year_Second_Semester', 'Fourth Year Second Semester'),
+        )
 
 
     unit_code = models.CharField(primary_key=True, max_length=10)
     unit_name = models.CharField(max_length=200, null=False)
-    year = models.IntegerField(choices=COURSE_YEAR_CHOICES, default='First_Year_First_Semester')
+    year = models.CharField(max_length=200, choices=COURSE_YEAR_CHOICES, default='First_Year_First_Semester')
     department = models.ForeignKey(Department, related_name="courses",on_delete=models.PROTECT)
     # lecturer = models.ForeignKey(Lecturers, related_name="units_taught",on_delete=models.PROTECT)
 
@@ -104,7 +65,8 @@ class Course(models.Model):
         return u"{} ({} cfu)".format(self.unit_name, self.unit_code)
 
 class Student(models.Model):
-    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+   #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+   #guid = models.UUIDField(unique=True, default=uuid.uuid4)
     first_name = models.CharField(max_length=255, null=False, blank=False)
     last_name = models.CharField(max_length=255, blank=False, null=False)
     other_names = models.CharField(max_length=255, null=True, blank=True)
@@ -120,7 +82,6 @@ class Student(models.Model):
         ('F', 'Female'),
     )
     gender = models.CharField(max_length=2, choices=GENDER_CHOICES)
-    #guid = models.UUIDField(unique=True, default=uuid.uuid4)
     parent_Contacts = models.CharField(max_length=255, null=False, blank=False)
     student_Contacts = models.CharField(max_length=255, null=True, blank=True)
     address = models.CharField(max_length=255, null=False, blank=False)

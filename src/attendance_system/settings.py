@@ -42,8 +42,6 @@ INSTALLED_APPS = [
 
     # my own apps
     'students',
-    'lecturers',
-    'departments',
     'attendance',
 
     
