@@ -16,7 +16,7 @@ Including another URLconf
 
 from django.conf.urls import url, include
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 
 from django.conf import settings
@@ -24,7 +24,8 @@ from django.views.static import serve
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
+    url(r'^api-auth/', include('rest_framework.urls')),
+    url(r'^students/', include('students.urls')),
 ]
 
 if settings.DEBUG:
