@@ -47,12 +47,7 @@ INSTALLED_APPS = [
 
     # my own apps
     'students',
-    # 'departments',
-    # 'courses',
-    # 'lecturers',
-    # 'attendences',
-    'attendance',
-    
+
 ]
 # JET_MODULE_GOOGLE_ANALYTICS_CLIENT_SECRETS_FILE = os.path.join(BASE_DIR, 'client_secrets.json')
 REST_FRAMEWORK = {

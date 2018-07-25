@@ -4,7 +4,6 @@ from rest_framework import viewsets
 from .models import Student
 from .models import Lecturers
 from .models import Department
-from .models import Lecturers
 from .models import Course
 from .models import Attendence
 from .serializers import StudentSerializer

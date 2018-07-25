@@ -21,7 +21,7 @@ class Department(models.Model):
     Department_Type = models.CharField(max_length=200, choices=DEPARTMENT_TYPE_CHOICES, default='SCIT')
 
     def __str__(self):
-        return self.Department_Type
+        return u'%s %s'  % (self.Department_Code, self.Department_Type)
 
 class Course(models.Model):
 
@@ -97,7 +97,6 @@ class Attendence(models.Model):
     unit_name = models.ForeignKey(Course, related_name="unit_att",on_delete=models.PROTECT)
     start_time = models.DateTimeField(null=True, blank=True)
     end_time = models.DateTimeField(null=True, blank=True)
-    duration = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     date = models.DateField(default=timezone.now)
     status = models.CharField(max_length=10, choices=ATTENDANCE_TYPES, default='')
     absent_with_reason = models.BooleanField(default=False)
@@ -105,4 +104,4 @@ class Attendence(models.Model):
 
 
     def __str__(self):
-        return u'%s %s %s %s %s %s' % (self.registration_number, self.department, self.unit_name, self.date, self.unit_name, self.image)
+        return u'%s %s %s %s %s' % (self.registration_number, self.department, self.unit_name, self.date, self.unit_name)
