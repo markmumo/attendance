@@ -55,6 +55,9 @@ class Lecturers(models.Model):
     def get_short_name(self):
         return self.first_name
 
+    def __str__(self):
+        return self.first_name
+
 class Student(models.Model):
    #guid = models.UUIDField(unique=True, default=uuid.uuid4)
     first_name = models.CharField(max_length=255, null=False, blank=False)
@@ -90,4 +93,3 @@ class Student(models.Model):
 
     def __str__(self):
         return self.registration_number
-
