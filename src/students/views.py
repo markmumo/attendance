@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.db.models.query import QuerySet
 from rest_framework import viewsets
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import Student
 from .models import Lecturers
 from .models import Department
